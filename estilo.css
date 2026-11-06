@@ -1,0 +1,106 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "DSEG14";
+  src: url("DSEG14Classic-Italic.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url(RobotoMono-VariableFont_wght.ttf);
+  font-display: swap;
+}
+
+* {
+  font-family: "DSEG14", "Roboto Mono", monospace;
+  font-weight: 400;
+  --width-sin: calc(89.766px + (89.766px - 73.766px));
+  --width-botao: calc(300px / 4 - 10px);
+}
+
+#seno {
+  border: 3px solid black;
+  position: absolute;
+  left: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: "Roboto Mono", monospace !important;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#seno * {
+  font-family: "Roboto Mono", monospace !important;
+}
+
+html {
+  background-color: gray;
+}
+
+div#calculadora {
+  background-color: #555;
+  padding: 20px;
+  border-radius: 10px;
+  border: 3px solid black;
+  width: fit-content;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+}
+
+#botoes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  width: 100%;
+  height: auto;
+  gap: 5px;
+}
+
+button {
+  width: var(--width-botao);
+  height: calc(300px / 6);
+  box-sizing: border-box;
+  margin: 0;
+  font-size: 22px;
+  font-size-adjust: none;
+  margin-top: 10px;
+}
+
+button#backspace {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.numeros {
+  background-color: rgb(74, 74, 255);
+  color: white;
+}
+
+.operadores {
+  background-color: orange;
+  color: black;
+}
+
+input#visor {
+  padding: 20px;
+  background-color: #106100;
+  width: calc(((var(--width-botao) * 3 + var(--width-sin)) + 137px) - 85px);
+  font-size: 50px;
+}
+
+.cientifico {
+  background-color: rgb(15, 158, 15);
+}
+
+button.outros {
+  width: fit-content;
+}
+
+.sin {
+  width: var(--width-sin);
+}
