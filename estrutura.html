@@ -9,36 +9,42 @@
   <body>
     <div id="calculadora">
       <input type="text" id="visor" readonly />
+    
+    
+    <div id="botoes">
+      <button class="numeros" onclick="digitar(1)">1</button>
+      <button class="numeros" onclick="digitar(2)">2</button>
+      <button class="numeros" onclick="digitar(3)">3</button>
+      <button class="operadores" onclick="digitar('+')">+</button>
+    
+      <button class="numeros" onclick="digitar(4)">4</button>
+      <button class="numeros" onclick="digitar(5)">5</button>
+      <button class="numeros" onclick="digitar(6)">6</button>
+      <button class="operadores" onclick="digitar('-')">−</button>
+    
+      <button class="numeros" onclick="digitar(7)">7</button>
+      <button class="numeros" onclick="digitar(8)">8</button>
+      <button class="numeros" onclick="digitar(9)">9</button>
+      <button class="operadores" onclick="digitar('x')">x</button>
+    
+      <button class="operadores" onclick="apagar()" id="backspace">←</button>
+      <button class="numeros" onclick="digitar(0)">0</button>
+      <button class="operadores" onclick="digitar('/')">÷</button>
+      <button class="operadores" onclick="calcular()">=</button>
+    
+      <button class="cientifico" onclick="digitar('**2')">x<sup>2</sup></button>
+      <button class="cientifico" onclick="raizQuadrada()">√</button>
+      <button class="cientifico maiores" onclick="digitar('sin(')">Sin()</button>
+      <button class="cientifico maiores" onclick="digitar('cos(')">Cos()</button>
+    
+      <button class="cientifico maiores" onclick="digitar('tan(')">Tan()</button>
+      <button class="cientifico" onclick="digitar('**')">x<sup>y</sup></button>
+      <button class="cientifico" onclick="digitar('.')">.</button>
+      <button class="cientifico" onclick="digitar('(')">(</button>
+    
+      <button class="cientifico" onclick="digitar(')')">)</button>
+    </div>
 
-      <div id="botoes">
-        <button class="numeros" onclick="digitar(1)">1</button>
-        <button class="numeros" onclick="digitar(2)">2</button>
-        <button class="numeros" onclick="digitar(3)">3</button>
-        <button class="operadores" onclick="digitar('+')">+</button>
-
-        <button class="numeros" onclick="digitar(4)">4</button>
-        <button class="numeros" onclick="digitar(5)">5</button>
-        <button class="numeros" onclick="digitar(6)">6</button>
-        <button class="operadores" onclick="digitar('-')">-</button>
-
-        <button class="numeros" onclick="digitar(7)">7</button>
-        <button class="numeros" onclick="digitar(8)">8</button>
-        <button class="numeros" onclick="digitar(9)">9</button>
-        <button class="operadores" onclick="digitar('x')">x</button>
-
-        <button class="operadores" onclick="apagar()" id="backspace">←</button>
-        <button class="numeros" onclick="digitar(0)">0</button>
-        <button class="operadores" onclick="digitar('/')">÷</button>
-        <button class="operadores" onclick="calcular()">=</button>
-
-        <button class="cientifico" onclick="digitar('**')">
-          x<sup>2</sup>
-        </button>
-        <button class="cientifico" onclick="raizQuadrada()">√</button>
-        <button class="cientifico sin" onclick="digitar('sin(')">Sin()</button>
-        <button class="cientifico" onclick="digitar('(')">(</button>
-        <button class="cientifico" onclick="digitar(')')">)</button>
-      </div>
     </div>
     <div id="seno">
       <h2>Opções do seno</h2>

@@ -15,7 +15,7 @@
 * {
   font-family: "DSEG14", "Roboto Mono", monospace;
   font-weight: 400;
-  --width-sin: calc(89.766px + (89.766px - 73.766px));
+  --width-maiores: calc(89.766px + (89.766px - 73.766px));
   --width-botao: calc(300px / 4 - 10px);
 }
 
@@ -89,7 +89,7 @@ button#backspace {
 input#visor {
   padding: 20px;
   background-color: #106100;
-  width: calc(((var(--width-botao) * 3 + var(--width-sin)) + 137px) - 85px);
+  width: calc(((var(--width-botao) * 3 + var(--width-maiores)) + 137px) - 85px);
   font-size: 50px;
 }
 
@@ -101,6 +101,6 @@ button.outros {
   width: fit-content;
 }
 
-.sin {
-  width: var(--width-sin);
+.maiores {
+  width: var(--width-maiores);
 }

@@ -3,6 +3,7 @@ let modo;
 
 function digitar(tecla) {
   visor.value = visor.value + String(tecla);
+  ajustarVisor();
 }
 
 function apagar() {
@@ -15,29 +16,29 @@ function apagar() {
     numeros[numeros.length - 1] = numeros.at(-1).slice(0, -1);
     visor.value = numeros.join("");
   }
+  ajustarVisor();
 }
 
-async function calcular() {
-  let expressao = visor.value.replaceAll("x", "*");
-  let resultado;
-  let numeros = expressao.split(/(\*\*|[+\-*/()])/);
-  let inicioParenteses = numeros.lastIndexOf("(");
-  let fimParenteses = numeros.indexOf(")", inicioParenteses);
+function resolverParenteses(numeros) {
+  while (numeros.includes("(")) {
+    let inicio = numeros.lastIndexOf("(");
+    let fim = numeros.indexOf(")", inicio);
 
-  for (let i = 0; i < numeros.length; i++) {
-    if (numeros[i] === numeros[inicioParenteses]) {
-      let conteudo = numeros.slice(inicioParenteses + 1, fimParenteses);
-      console.log(conteudo);
-      let operacao = conteudo[0];
-      for (let i2 = 1; i2 < conteudo.length; i2++) {
-        operacao = String(operacao) + String(conteudo[i2]);
-      }
-      console.log(operacao);
-      if (operacao.includes("+")) {
-        conteudo = conteudo.replace(String(operacao), String(operacao.slice(0, conteudo.indexOf('+')) + operacao.slice(conteudo.indexOf('+') + 1)));
-        console.log(conteudo)
-      }
+    if (fim === -1) {
+      throw new Error("Parênteses inválidos");
     }
+
+    let conteudo = numeros.slice(inicio + 1, fim);
+    let resultado = calcularExpressao(conteudo);
+
+    numeros.splice(inicio, fim - inicio + 1, String(resultado));
+  }
+
+  return numeros;
+}
+
+function resolverPotencias(numeros) {
+  for (let i = 0; i < numeros.length; i++) {
     if (numeros[i] === "**") {
       numeros.splice(
         i - 1,
@@ -46,6 +47,13 @@ async function calcular() {
       );
       i--;
     }
+  }
+
+  return numeros;
+}
+
+function resolverMultiplicacaoDivisao(numeros) {
+  for (let i = 0; i < numeros.length; i++) {
     if (numeros[i] === "*") {
       numeros.splice(
         i - 1,
@@ -63,7 +71,11 @@ async function calcular() {
     }
   }
 
-  resultado = Number(numeros[0]);
+  return numeros;
+}
+
+function resolverSomaSubtracao(numeros) {
+  let resultado = Number(numeros[0]);
 
   for (let i = 1; i < numeros.length; i += 2) {
     if (numeros[i] === "+") {
@@ -73,14 +85,54 @@ async function calcular() {
     }
   }
 
-  if (!Number.isFinite(resultado)) {
-    visor.value = "Erro: Infinito";
-  } else if (Number.isNaN(resultado)) visor.value = "Erro: NaN";
-  else {
-    visor.value = resultado;
+  return resultado;
+}
+
+function calcularExpressao(numeros) {
+  resolverParenteses(numeros);
+  resolverPotencias(numeros);
+  resolverMultiplicacaoDivisao(numeros);
+
+  return resolverSomaSubtracao(numeros);
+}
+
+function calcular() {
+  try {
+    let expressao = visor.value.replaceAll("x", "*");
+
+    let numeros = expressao
+      .split(/(\*\*|[+\-*/()])/)
+      .filter((numero) => numero !== "");
+
+    let resultado = calcularExpressao(numeros);
+
+    if (!Number.isFinite(resultado)) {
+      visor.value = "Erro: Infinito";
+    } else if (Number.isNaN(resultado)) {
+      visor.value = "Erro: NaN";
+    } else {
+      visor.value = resultado;
+    }
+  } catch {
+    visor.value = "Erro: Expressão inválida";
   }
+  ajustarVisor();
 }
 
 function raizQuadrada() {
   visor.value = Math.sqrt(Number(visor.value));
+}
+
+function ajustarVisor() {
+  const tamanho = visor.value.length;
+
+  if (tamanho <= 10) {
+    visor.style.fontSize = "30px";
+  } else if (tamanho <= 15) {
+    visor.style.fontSize = "24px";
+  } else if (tamanho <= 20) {
+    visor.style.fontSize = "18px";
+  } else {
+    visor.style.fontSize = "14px";
+  }
 }
