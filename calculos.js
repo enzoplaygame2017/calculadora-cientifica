@@ -1,5 +1,6 @@
 let visor = document.getElementById("visor");
 let modo;
+ajustarVisor()
 
 function digitar(tecla) {
   visor.value = visor.value + String(tecla);
@@ -7,7 +8,7 @@ function digitar(tecla) {
 }
 
 function apagar() {
-  let numeros = visor.value.split(/(\*\*|[+\-*/])/);
+  let numeros = visor.value.match(/sin|[0-9.]+|[+\-*/()]|\*\*/g) || [];
 
   if (numeros.at(-1) === "" && numeros.at(-2) === "**") {
     numeros.splice(-2, 1);
@@ -25,13 +26,46 @@ function resolverParenteses(numeros) {
     let fim = numeros.indexOf(")", inicio);
 
     if (fim === -1) {
-      throw new Error("Parênteses inválidos");
+      throw new Error(
+        "Parênteses inválidos. Tente verificar se os parênteses estão fechados.",
+      );
+    } else if (numeros[inicio - 1] === "sin") {
+      resolverSin(numeros);
+      continue;
     }
 
     let conteudo = numeros.slice(inicio + 1, fim);
     let resultado = calcularExpressao(conteudo);
 
     numeros.splice(inicio, fim - inicio + 1, String(resultado));
+  }
+
+  return numeros;
+}
+
+
+function resolverSin(numeros) {
+  let resultado;
+
+  while (numeros.includes("sin")) {
+    let sin = numeros.indexOf("sin");
+    let inicio = numeros.indexOf("(", sin);
+    let fim = numeros.indexOf(")", inicio);
+
+    if (inicio === -1 || fim === -1) {
+      throw new Error("Parênteses inválidos.");
+    }
+
+    let conteudo = numeros.slice(inicio + 1, fim);
+    let valor = Number(conteudo.join(""));
+
+    if (modo === "graus") {
+      valor = (valor * Math.PI) / 180;
+    }
+
+    resultado = Number(Math.sin(valor).toFixed(2));
+
+    numeros.splice(sin, fim - sin + 1, String(resultado));
   }
 
   return numeros;
@@ -90,9 +124,9 @@ function resolverSomaSubtracao(numeros) {
 
 function calcularExpressao(numeros) {
   resolverParenteses(numeros);
+  resolverSin(numeros);
   resolverPotencias(numeros);
   resolverMultiplicacaoDivisao(numeros);
-
   return resolverSomaSubtracao(numeros);
 }
 
@@ -101,7 +135,7 @@ function calcular() {
     let expressao = visor.value.replaceAll("x", "*");
 
     let numeros = expressao
-      .split(/(\*\*|[+\-*/()])/)
+      .match(/sin|[0-9.]+|[+\-*/()]/g)
       .filter((numero) => numero !== "");
 
     let resultado = calcularExpressao(numeros);
@@ -121,6 +155,7 @@ function calcular() {
 
 function raizQuadrada() {
   visor.value = Math.sqrt(Number(visor.value));
+  ajustarVisor();
 }
 
 function ajustarVisor() {
